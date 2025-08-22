@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  ubuntu:
+    image: dorowu/ubuntu-desktop-lxde-vnc
+    container_name: ubuntu-desktop
+    environment:
+      USER: "admin"
+      PASSWORD: "Password123"
+      RESOLUTION: "1280x800"
+    ports:
+      - "6080:80"     # noVNC (akses via browser)
+      - "5901:5900"   # VNC viewer opsional
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
+    command: bash -c "vnc_startup & tail -f /dev/null"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  fedora:
+    image: accetto/fedora-vnc-xfce   # Fedora + XFCE + VNC
+    container_name: fedora-desktop
+    environment:
+      VNC_PW: "Password123"
+      VNC_RESOLUTION: "1280x800"
+    ports:
+      - "6081:6901"   # noVNC (akses via browser)
+      - "5902:5901"   # VNC viewer opsional
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
+    command: bash -c "/dockerstartup/vnc_startup.sh & tail -f /dev/null"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6901/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
