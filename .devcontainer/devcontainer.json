@@ -1,9 +1,9 @@
 {
-  "name": "Ubuntu VNC",
+  "name": "Fedora VNC",
   "build": {
-    "dockerfile": "Dockerfile"
+    "dockerfile": "../Dockerfile"
   },
-  "forwardPorts": [6080],
+  "forwardPorts": [6080, 5901],
   "customizations": {
     "vscode": {
       "extensions": []
